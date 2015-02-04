@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Ch 2 - One Way ANOVA Part 2</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" type="image/png" href="favicon.ico">
+  <link  rel="stylesheet" 
+    href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css">
+  <link rel="stylesheet" href="libraries/frameworks/bootstrap3/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="libraries/frameworks/bootstrap3/css/main.css">
+  <link rel="stylesheet" href="libraries/highlighters/highlight/css/tomorrow.css" />
+  <script src="libraries/frameworks/bootstrap3/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/frameworks/bootstrap3/js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+    <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="libraries/frameworks/bootstrap3/css/custom.css"></link>
+<link rel=stylesheet href="libraries/frameworks/bootstrap3/css/moving_sidebar.css"></link>
+<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Vollkorn"></link>
+<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Droid%20Sans%20Mono"></link>
+
+  <script src="libraries/frameworks/bootstrap3/js/jquery.js"></script>
+  
+</head>
+<body data-spy = "scroll" data-target = ".page-sidebar">
+   <!--[if lt IE 7]>
+     <p class="chromeframe">You are using an outdated browser. 
+       <a href="http://browsehappy.com/">Upgrade your browser today</a> or 
+       <a href="http://www.google.com/chromeframe/?redirect=true"> 
+         install Google Chrome Frame
+       </a> to better experience this site.
+    </p>
+   <![endif]-->
+   <!-- Ref: http://twitter.github.com/bootstrap/examples/hero.html -->
+
+  <div class="container">
+
+    <div class = "row">
+
+      <div class = "col-md-9 col-sm-12">
+
+        <div class="jumbotron">
+          <div class="container">
+            <h1>Ch 2 - One Way ANOVA Part 2</h1>
+            <h3>Stat 217</h3>
+          </div>
+        </div>
+
+        <section id="slide-1">
+  <div class="page-header">
+    <h2>Introduction</h2>
+  </div>
+  <p>We will continue working on the Insect Sprays and ACT data.  In this activity, we will set up the hypotheses using reference coding.  This time, we will assess the assumptions and then proceed using a permutation test.</p>
+
+<p>Upon completing this activity, you should be comfortable</p>
+
+<ul>
+<li>Estimating different coefficients in the model</li>
+<li>Assessing the assumptions for a One-Way ANOVA with diagnostic plots (<em>Step 2 of the Six Steps of Hypothesis Testing</em>)</li>
+<li>Performing a permutation test</li>
+</ul>
+
+<p>The &quot;Show Answer&quot; button still does not work.  My apologies.</p>
+
+<p>The questions to turn in to me are not all at the end this time.  I tried to label them &quot;Take Home Questions&quot; throughout the activity.  There should be 12 total (8 from the previous activity and 4 from this one).  Please do not forget any.</p>
+
+</section>
+<section id="slide-2">
+  <div class="page-header">
+    <h2>The Insect Sprays Data</h2>
+  </div>
+  <p>Recall the Insect Sprays data.  Plots of land were sprayed with one of six insecticides and the number of bugs were counted in each plot after spraying.  The data are displayed below.</p>
+
+<pre><code class="r">data(InsectSprays)  # load the data
+boxplot(count ~ spray, data = InsectSprays)
+</code></pre>
+
+<p><img src="assets/fig/insect-data-1.png" title="plot of chunk insect-data" alt="plot of chunk insect-data" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-3">
+  <div class="page-header">
+    <h2>Visualizing the ACT Data</h2>
+  </div>
+  <p>A school is interested in comparing ACT scores for students with baseball scholarships, football scholarships, and non-athletes.  We will test at an \(\alpha = 0.05\) significance level.  The data are plotted below.</p>
+
+<pre><code class="r">act &lt;- read.csv(&quot;act.csv&quot;)
+boxplot(ACT ~ Sport, data = act)
+</code></pre>
+
+<p><img src="assets/fig/act-data-1.png" title="plot of chunk act-data" alt="plot of chunk act-data" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-4">
+  <div class="page-header">
+    <h2>Hypotheses for Insect Sprays Data</h2>
+  </div>
+  <p>We will use a permutation test to analyze the Insect Sprays Data.  The hypotheses for this test are:</p>
+
+<p>\(H_0: \mu_1 = \mu_2 = \ldots = \mu_6\)</p>
+
+<p>\(H_A:\) at least one mean is different from the others</p>
+
+<p><strong>OR</strong></p>
+
+<p>\(H_0: \tau_1 = \tau_2 = \ldots = \tau_6 = 0\)</p>
+
+<p>\(H_A:\) at least one \(\tau_j\) is not equal to zero</p>
+
+<p>Either set of hypotheses is acceptable.</p>
+
+</section>
+<section id="slide-5">
+  <div class="page-header">
+    <h2>Hypotheses for ACT Data</h2>
+  </div>
+  
+<div class="quiz quiz-single well ">
+  <p>Which of the following is a valid set of hypotheses for the ACT Data?  What type of coding does it correspond to?</p>
+
+<ol>
+<li><p>\(H_0: \mu_1 = \mu_2 = \mu_3\);
+\(H_A:\) at least one \(\mu_j\) is not equal to the others;
+This is called &quot;reference coding&quot;</p></li>
+<li><p>\(H_0: \tau_1 = \tau_2 = \tau_3 = 0;\)
+\(H_A:\) at least one \(\tau_j\) is not equal to zero; 
+This is called &quot;reference coding&quot;</p></li>
+<li><p>\(H_0: \mu_1 = \mu_2 = \mu_3;\)
+\(H_A:\) at least one \(\mu_j\) is not equal to the others; 
+This is called &quot;cell means coding&quot;</p></li>
+<li><p>\(H_0: \tau_1 = \tau_2 = \tau_3 = 0;\)
+\(H_A:\) at least one \(\tau_j\) is not equal to zero;
+This is called &quot;cell means coding&quot;</p></li>
+<li><p><em>Either the second or third choice is valid</em></p></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>For the Insect Sprays data, which set of hypotheses corresponded to cell means coding?  Which corresponded to reference coding?</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>The hypotheses using \(\mu\) are for cell means coding.  The hypotheses using \(\tau\) are for reference coding.</p>
+
+</div>
+</div>
+</section>
+<section id="slide-6">
+  <div class="page-header">
+    <h2>Test Statistic for Insect Sprays Data</h2>
+  </div>
+  <p>To get our test statistic, we need to obtain the ANOVA table.  This can be done using the following R code.</p>
+
+<pre><code class="r">lm1 &lt;- lm(count ~ spray, data = InsectSprays)
+anova(lm1)
+</code></pre>
+
+<pre><code>#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Response: count
+#&gt;           Df Sum Sq Mean Sq F value Pr(&gt;F)
+#&gt; spray      5   2669     534    34.7 &lt;2e-16
+#&gt; Residuals 66   1015      15
+</code></pre>
+
+<p>We want to use the F-statistic as our test statistic.  The following R code will extract it.</p>
+
+<pre><code class="r">Tobs &lt;- anova(lm1)[1,4]
+Tobs
+</code></pre>
+
+<pre><code>#&gt; [1] 35
+</code></pre>
+
+</section>
+<section id="slide-7">
+  <div class="page-header">
+    <h2>Test Statistic for ACT Data</h2>
+  </div>
+  
+<div class="quiz-text quiz-multitext well">
+  <pre><code class="r">lm2 &lt;- lm(ACT ~ Sport, data = act)
+anova(lm2)
+</code></pre>
+
+<pre><code>#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Response: ACT
+#&gt;           Df Sum Sq Mean Sq F value Pr(&gt;F)
+#&gt; Sport      2     71    35.5    4.56  0.023
+#&gt; Residuals 20    156     7.8
+</code></pre>
+
+<pre><code class="r">Tobs2 &lt;- anova(lm2)[1,4]
+</code></pre>
+
+<ol>
+<li>What will test test statistic for the ACT data be?</li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>Again, we want to use the F-value as our test statistic.</p>
+
+</div>
+<div class="quiz-explanation">
+  <ol>
+<li><span class='answer'>4.56</span></li>
+</ol>
+
+</div>
+</div>
+</section>
+<section id="slide-8">
+  <div class="page-header">
+    <h2>Permutations for Insect Sprays</h2>
+  </div>
+  <p>We will use a <code>for</code> loop to permute the data 1000 times.  Each time we&#39;ll <code>shuffle</code> or permute the data to get a permuted test statistics.  I&#39;ll create a matrix called <code>Tstar</code> to store the permuted test statistics.</p>
+
+<p>If you want to learn more about this code, please ask.</p>
+
+<pre><code class="r">require(mosaic)
+Tstar &lt;- matrix(NA, nrow = 1000)
+for(i in 1:1000) {
+  lm_i &lt;- lm(count ~ shuffle(spray), data = InsectSprays)
+  Tstar[i] &lt;- anova(lm_i)[1,4]
+}
+</code></pre>
+
+<p><code>Tstar</code> now contains the permuted test statistics.  The first one is 0.36, the second one is 0.21, and so on...</p>
+
+<pre><code class="r">head(Tstar)
+</code></pre>
+
+<pre><code>#&gt;      [,1]
+#&gt; [1,] 0.84
+#&gt; [2,] 1.73
+#&gt; [3,] 0.69
+#&gt; [4,] 0.50
+#&gt; [5,] 2.11
+#&gt; [6,] 0.39
+</code></pre>
+
+</section>
+<section id="slide-9">
+  <div class="page-header">
+    <h2>Permutations for ACT Data</h2>
+  </div>
+  
+<div class="quiz-text quiz-multitext well">
+  <p>Here is the code to perform the permutations for the ACT data.</p>
+
+<pre><code class="r">Tstar2 &lt;- matrix(NA, nrow = 1000)
+for(i in 1:1000) {
+  lm_i &lt;- lm(ACT ~ shuffle(Sport), data = act)
+  Tstar2[i] &lt;- anova(lm_i)[1,4]
+}
+head(Tstar2)
+</code></pre>
+
+<pre><code>#&gt;       [,1]
+#&gt; [1,] 0.013
+#&gt; [2,] 0.100
+#&gt; [3,] 2.159
+#&gt; [4,] 0.916
+#&gt; [5,] 0.353
+#&gt; [6,] 0.033
+</code></pre>
+
+<ol>
+<li>In the first permutation, what was the test statistic?</li>
+<li>What was the test statistic for the second permutation?</li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>The permuted test statistics are stored in <code>Tstar</code></p>
+
+</div>
+<div class="quiz-explanation">
+  <ol>
+<li><span class='answer'>0.01</span></li>
+<li><span class='answer'>0.1</span></li>
+</ol>
+
+</div>
+</div>
+</section>
+<section id="slide-10">
+  <div class="page-header">
+    <h2>P-value for Insect Sprays</h2>
+  </div>
+  <p>We create a histogram of the distribution of permuted test statistics.  The red line represents our observed test statistic.</p>
+
+<pre><code class="r">hist(Tstar, xlim = c(0, 35))
+abline(v = Tobs, col = &quot;red&quot;)
+</code></pre>
+
+<p><img src="assets/fig/insect-null-1.png" title="plot of chunk insect-null" alt="plot of chunk insect-null" style="display: block; margin: auto;" /></p>
+
+<p>The <code>pdata</code> command is then used to find the proportion of permuted test statistics greater than our observed test statistic.  It tells us that our p-value is approximately 0.</p>
+
+<pre><code class="r">pdata(Tobs, Tstar, lower.tail = F)
+</code></pre>
+
+<pre><code>#&gt; [1] 0
+</code></pre>
+
+</section>
+<section id="slide-11">
+  <div class="page-header">
+    <h2>P-value for ACT Data</h2>
+  </div>
+  <p>The same process can be used to calculated a p-value for the ACT data.  The histogram is displayed below.  The number corresponds to the percent of the null distribution in each bin.  The red line indicates the observed result.</p>
+
+<p><img src="assets/fig/act_pval-1.png" title="plot of chunk act_pval" alt="plot of chunk act_pval" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-12">
+  <div class="page-header">
+    <h2>Calculating a p-value for the ACT Data</h2>
+  </div>
+  
+<div class="quiz quiz-single well ">
+  <p>Do we use the left-tail or right-tail of the null distribution to find the p-value?  Approximately what is the p-value?</p>
+
+<ol>
+<li>Left; 0.98</li>
+<li>Left; 0.02</li>
+<li>Right; 0.98</li>
+<li><em>Right; 0.02</em></li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>Once you&#39;ve decided on the correct tail, just sum the probabilities and divide by 100 to get an approximate p-value.</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>We use the right tail when doing an ANOVA for both F-tests (parametric) and permutation tests (non-parametric).  Summing from right to left, the p-value \(\approx (1.2 + 1) / 100 \approx 0.02\) which is the sum of the probability in each bin to the right of the observed result.</p>
+
+</div>
+</div>
+</section>
+<section id="slide-13">
+  <div class="page-header">
+    <h2>Equal Variance for Insect Sprays</h2>
+  </div>
+  <p>Let&#39;s first look at the equal variance assumption.  These plots suggest problems with the equal variance assumption.  Small fitted values do not have much spread, but large fitted values have a lot of spread in the residuals.  We see a fan shape in the Residuals vs Fitted values plot and an increasing trend in the Scale-Location plot.  So this assumption is not met.</p>
+
+<pre><code class="r">par(mfrow = c(1,2))
+plot(lm1, which = c(1,3))
+</code></pre>
+
+<p><img src="assets/fig/mock_var-1.png" title="plot of chunk mock_var" alt="plot of chunk mock_var" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-14">
+  <div class="page-header">
+    <h2>Equal Variance Plots for ACT Data</h2>
+  </div>
+  <p>The Residuals vs Fitted value plot is on the left.  The Scale-Location plot is on the right.</p>
+
+<p><img src="assets/fig/act_var-1.png" title="plot of chunk act_var" alt="plot of chunk act_var" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-15">
+  <div class="page-header">
+    <h2>Assessing Equal Variance for the ACT Data</h2>
+  </div>
+  
+<div class="quiz quiz-single well ">
+  <p>Is the equal variance assumption met for the ACT data?</p>
+
+<ol>
+<li>Yes - there are noticeable patterns in the plots</li>
+<li>No - there are no noticeable patterns in the plots</li>
+<li><em>Yes - there are no noticable patterns in the plots</em></li>
+<li>No - there are noticeable patterns in the plots</li>
+</ol>
+
+  <button class="quiz-submit btn btn-primary">Submit</button>
+  <button class="quiz-toggle-hint btn btn-info">Show Hint</button>
+  <button class="quiz-show-answer btn btn-success">Show Answer</button>
+  <button class="quiz-clear btn btn-danger">Clear</button>
+  
+  <div class="quiz-hint">
+  <p>If there is a U-shape or fanning in the Residuals vs Fitted values plot <strong>or</strong> a constant upward/downward trend in the Scale-Location plot, the equal variance assumption is violated.</p>
+
+</div>
+<div class="quiz-explanation">
+  <p>There are no obvious patterns in the plots, so the equal variance assumption is met.</p>
+
+</div>
+</div>
+</section>
+<section id="slide-16">
+  <div class="page-header">
+    <h2>Normality for Insect Sprays</h2>
+  </div>
+  <p>Now let&#39;s look at normality.  Here, there are some problems.  We see the points flying off the line in the tails of the Normal Q-Q plot.  This is suggests that the data are not normally distributed so this assumption is not met.</p>
+
+<p><img src="assets/fig/mock_norm-1.png" title="plot of chunk mock_norm" alt="plot of chunk mock_norm" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-17">
+  <div class="page-header">
+    <h2>Normality Plots for the ACT Data</h2>
+  </div>
+  <p>The Normal Q-Q plot is located on the left.  A histogram of the residuals is located on the right.  We have a small sample size for the ACT data (only 7 or 8 observations per group) so we need the plots to look really good.  There are some points lying well below the line on the Normal Q-Q plot, and the histogram is not quite symmetric so this assumption is violated.</p>
+
+<p><img src="assets/fig/act_norm-1.png" title="plot of chunk act_norm" alt="plot of chunk act_norm" style="display: block; margin: auto;" /></p>
+
+</section>
+<section id="slide-18">
+  <div class="page-header">
+    <h2>Additional Take Home Questions</h2>
+  </div>
+  <p>9)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is violated (this will be easiest if you give the residuals a fan shape).</p>
+
+<p>10)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is met</p>
+
+<p>11)  Draw a Normal Q-q plot which shows that the Normality assumption is violated.</p>
+
+<p>12)  Draw a Normal Q-q plot which shows that the Normality assumption is met.</p>
+
+</section>
+
+      </div>  <!-- end content -->
+
+      <div class = "col-md-3">
+        <div class = "page-sidebar hidden-print hidden-xs hidden-sm affix-top">
+          <ul class = "nav navlist">
+            
+            <li><a href = "#slide-1"> Introduction</a></li>
+
+            <li><a href = "#slide-2"> The Insect Sprays Data</a></li>
+
+            <li><a href = "#slide-3"> Visualizing the ACT Data</a></li>
+
+            <li><a href = "#slide-4"> Hypotheses for Insect Sprays Data</a></li>
+
+            <li><a href = "#slide-5"> Hypotheses for ACT Data</a></li>
+
+            <li><a href = "#slide-6"> Test Statistic for Insect Sprays Data</a></li>
+
+            <li><a href = "#slide-7"> Test Statistic for ACT Data</a></li>
+
+            <li><a href = "#slide-8"> Permutations for Insect Sprays</a></li>
+
+            <li><a href = "#slide-9"> Permutations for ACT Data</a></li>
+
+            <li><a href = "#slide-10"> P-value for Insect Sprays</a></li>
+
+            <li><a href = "#slide-11"> P-value for ACT Data</a></li>
+
+            <li><a href = "#slide-12"> Calculating a p-value for the ACT Data</a></li>
+
+            <li><a href = "#slide-13"> Equal Variance for Insect Sprays</a></li>
+
+            <li><a href = "#slide-14"> Equal Variance Plots for ACT Data</a></li>
+
+            <li><a href = "#slide-15"> Assessing Equal Variance for the ACT Data</a></li>
+
+            <li><a href = "#slide-16"> Normality for Insect Sprays</a></li>
+
+            <li><a href = "#slide-17"> Normality Plots for the ACT Data</a></li>
+
+            <li><a href = "#slide-18"> Additional Take Home Questions</a></li>
+          </ul>
+        </div>
+      </div>  <!-- end sidebar -->
+
+    </div>  <!-- end row -->
+
+   
+      <!-- Footer -->
+      <footer id="top" role="footer">
+        <div class="container text-center">
+          <span class="text-muted">Built by <a href="http://slidify.org/">Slidify</a>.  Styled using <a href="http://getbootstrap.com/">Bootstrap</a>.  Theme by <a href="http://bootswatch.com/">Bootswatch</a>.  Hosted on <a href="https://github.com/">GitHub</a>.</span>
+        </div>
+      </footer>
+
+  </div>  <!-- end container -->
+</body>
+  <script src="libraries/frameworks/bootstrap3/js/bootstrap.min.js"></script>
+  <script src="libraries/frameworks/bootstrap3/js/plugins.js"></script>
+  <script src="libraries/frameworks/bootstrap3/js/main.js"></script>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+</html>

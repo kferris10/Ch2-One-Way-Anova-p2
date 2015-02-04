@@ -1,0 +1,25 @@
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Vollkorn', sans-serif;
+	font-weight: bold;
+}
+footer {
+	border-top: 1px solid #ddd;
+	color: #999;
+	text-align: center;
+}
+.jumbotron {
+	background-color: #CBE7A5;
+}
+p, 
+li {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+}
+pre code {
+	font-family: 'Courier New' sans-serif;
+}
+pre code.r {
+	color: #c7254e;
+	background-color: white;
+}
+

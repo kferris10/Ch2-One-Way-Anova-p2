@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  {{> head }}
+  {{{ page.assets.css }}}
+  <script src="{{page.url.framework}}/js/jquery.js"></script>
+  {{{ page.assets.jshead }}}
+</head>
+<body data-spy = "scroll" data-target = ".page-sidebar">
+   <!--[if lt IE 7]>
+     <p class="chromeframe">You are using an outdated browser. 
+       <a href="http://browsehappy.com/">Upgrade your browser today</a> or 
+       <a href="http://www.google.com/chromeframe/?redirect=true"> 
+         install Google Chrome Frame
+       </a> to better experience this site.
+    </p>
+   <![endif]-->
+   <!-- Ref: http://twitter.github.com/bootstrap/examples/hero.html -->
+
+  <div class="container">
+
+    <div class = "row">
+
+      <div class = "col-md-9 col-sm-12">
+
+        <div class="jumbotron">
+          <div class="container">
+            <h1>{{ page.title }}</h1>
+            <h3>Stat 217</h3>
+          </div>
+        </div>
+
+        {{{ page.content }}}
+
+      </div>  <!-- end content -->
+
+      <div class = "col-md-3">
+        <div class = "page-sidebar hidden-print hidden-xs hidden-sm affix-top">
+          <ul class = "nav navlist">
+            {{ #page.slides }}
+            <li><a href = "#{{id}}"> {{{ title }}}</a></li>
+            {{/page.slides}}
+          </ul>
+        </div>
+      </div>  <!-- end sidebar -->
+
+    </div>  <!-- end row -->
+
+   
+      <!-- Footer -->
+      <footer id="top" role="footer">
+        <div class="container text-center">
+          <span class="text-muted">Built by <a href="http://slidify.org/">Slidify</a>.  Styled using <a href="http://getbootstrap.com/">Bootstrap</a>.  Theme by <a href="http://bootswatch.com/">Bootswatch</a>.  Hosted on <a href="https://github.com/">GitHub</a>.</span>
+        </div>
+      </footer>
+
+  </div>  <!-- end container -->
+</body>
+  <script src="{{page.url.framework}}/js/bootstrap.min.js"></script>
+  <script src="{{page.url.framework}}/js/plugins.js"></script>
+  <script src="{{page.url.framework}}/js/main.js"></script>
+  <!-- Load Javascripts for Widgets -->
+  {{{ page.assets.js }}}
+  {{> javascripts }}
+</html>
