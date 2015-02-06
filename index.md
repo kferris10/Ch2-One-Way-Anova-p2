@@ -27,7 +27,7 @@ Upon completing this activity, you should be comfortable
 
 * Estimating different coefficients in the model
 * Assessing the assumptions for a One-Way ANOVA with diagnostic plots (*Step 2 of the Six Steps of Hypothesis Testing*)
-* Performing a permutation test
+* Performing a permutation test in a One-Way ANOVA setting
 
 The "Show Answer" button still does not work.  My apologies.
 
@@ -173,7 +173,7 @@ Again, we want to use the F-value as our test statistic.
 ---
 ## Permutations for Insect Sprays
 
-We will use a `for` loop to permute the data 1000 times.  Each time we'll `shuffle` or permute the data to get a permuted test statistics.  I'll create a matrix called `Tstar` to store the permuted test statistics.
+We will use a `for` loop to permute the data 1000 times.  Each time we'll `shuffle` or permute the data to get a permuted test statistic.  I'll create a matrix called `Tstar` to store the permuted test statistics.
 
 If you want to learn more about this code, please ask.
 
@@ -196,12 +196,12 @@ head(Tstar)
 
 ```
 #>      [,1]
-#> [1,] 0.84
-#> [2,] 1.73
-#> [3,] 0.69
-#> [4,] 0.50
-#> [5,] 2.11
-#> [6,] 0.39
+#> [1,] 0.36
+#> [2,] 0.21
+#> [3,] 0.75
+#> [4,] 2.10
+#> [5,] 1.82
+#> [6,] 0.66
 ```
 
 --- &multitext
@@ -220,24 +220,24 @@ head(Tstar2)
 ```
 
 ```
-#>       [,1]
-#> [1,] 0.013
-#> [2,] 0.100
-#> [3,] 2.159
-#> [4,] 0.916
-#> [5,] 0.353
-#> [6,] 0.033
+#>      [,1]
+#> [1,] 2.99
+#> [2,] 0.50
+#> [3,] 5.10
+#> [4,] 0.14
+#> [5,] 1.38
+#> [6,] 1.14
 ```
 
-1. In the first permutation, what was the test statistic?
-2. What was the test statistic for the second permutation?
+1. In the first permutation, what was the test statistic?  Round to two decimal places.
+2. What was the test statistic for the second permutation?  Round to two decimal places.
 
 *** .hint
 The permuted test statistics are stored in `Tstar`
 
 *** .explanation
-1. <span class='answer'>0.01</span>
-2. <span class='answer'>0.1</span>
+1. <span class='answer'>2.99</span>
+2. <span class='answer'>0.5</span>
 
 ---
 ## P-value for Insect Sprays
@@ -246,7 +246,7 @@ We create a histogram of the distribution of permuted test statistics.  The red 
 
 
 ```r
-hist(Tstar, xlim = c(0, 35))
+hist(Tstar, xlim = c(0, Tobs))
 abline(v = Tobs, col = "red")
 ```
 
@@ -277,7 +277,7 @@ The same process can be used to calculated a p-value for the ACT data.  The hist
 
 Do we use the left-tail or right-tail of the null distribution to find the p-value?  Approximately what is the p-value?
 
-1. Left; 0.98
+1. Left; 0.98 
 2. Left; 0.02
 3. Right; 0.98
 4. _Right; 0.02_
@@ -350,9 +350,9 @@ The Normal Q-Q plot is located on the left.  A histogram of the residuals is loc
 
 10)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is met
 
-11)  Draw a Normal Q-q plot which shows that the Normality assumption is violated.
+11)  Draw a Normal Q-Q plot which shows that the Normality assumption is violated.
 
-12)  Draw a Normal Q-q plot which shows that the Normality assumption is met.
+12)  Draw a Normal Q-Q plot which shows that the Normality assumption is met.
 
 
 

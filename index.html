@@ -64,7 +64,7 @@
 <ul>
 <li>Estimating different coefficients in the model</li>
 <li>Assessing the assumptions for a One-Way ANOVA with diagnostic plots (<em>Step 2 of the Six Steps of Hypothesis Testing</em>)</li>
-<li>Performing a permutation test</li>
+<li>Performing a permutation test in a One-Way ANOVA setting</li>
 </ul>
 
 <p>The &quot;Show Answer&quot; button still does not work.  My apologies.</p>
@@ -230,7 +230,7 @@ anova(lm2)
   <div class="page-header">
     <h2>Permutations for Insect Sprays</h2>
   </div>
-  <p>We will use a <code>for</code> loop to permute the data 1000 times.  Each time we&#39;ll <code>shuffle</code> or permute the data to get a permuted test statistics.  I&#39;ll create a matrix called <code>Tstar</code> to store the permuted test statistics.</p>
+  <p>We will use a <code>for</code> loop to permute the data 1000 times.  Each time we&#39;ll <code>shuffle</code> or permute the data to get a permuted test statistic.  I&#39;ll create a matrix called <code>Tstar</code> to store the permuted test statistics.</p>
 
 <p>If you want to learn more about this code, please ask.</p>
 
@@ -248,12 +248,12 @@ for(i in 1:1000) {
 </code></pre>
 
 <pre><code>#&gt;      [,1]
-#&gt; [1,] 0.84
-#&gt; [2,] 1.73
-#&gt; [3,] 0.69
-#&gt; [4,] 0.50
-#&gt; [5,] 2.11
-#&gt; [6,] 0.39
+#&gt; [1,] 0.36
+#&gt; [2,] 0.21
+#&gt; [3,] 0.75
+#&gt; [4,] 2.10
+#&gt; [5,] 1.82
+#&gt; [6,] 0.66
 </code></pre>
 
 </section>
@@ -273,18 +273,18 @@ for(i in 1:1000) {
 head(Tstar2)
 </code></pre>
 
-<pre><code>#&gt;       [,1]
-#&gt; [1,] 0.013
-#&gt; [2,] 0.100
-#&gt; [3,] 2.159
-#&gt; [4,] 0.916
-#&gt; [5,] 0.353
-#&gt; [6,] 0.033
+<pre><code>#&gt;      [,1]
+#&gt; [1,] 2.99
+#&gt; [2,] 0.50
+#&gt; [3,] 5.10
+#&gt; [4,] 0.14
+#&gt; [5,] 1.38
+#&gt; [6,] 1.14
 </code></pre>
 
 <ol>
-<li>In the first permutation, what was the test statistic?</li>
-<li>What was the test statistic for the second permutation?</li>
+<li>In the first permutation, what was the test statistic?  Round to two decimal places.</li>
+<li>What was the test statistic for the second permutation?  Round to two decimal places.</li>
 </ol>
 
   <button class="quiz-submit btn btn-primary">Submit</button>
@@ -298,8 +298,8 @@ head(Tstar2)
 </div>
 <div class="quiz-explanation">
   <ol>
-<li><span class='answer'>0.01</span></li>
-<li><span class='answer'>0.1</span></li>
+<li><span class='answer'>2.99</span></li>
+<li><span class='answer'>0.5</span></li>
 </ol>
 
 </div>
@@ -311,7 +311,7 @@ head(Tstar2)
   </div>
   <p>We create a histogram of the distribution of permuted test statistics.  The red line represents our observed test statistic.</p>
 
-<pre><code class="r">hist(Tstar, xlim = c(0, 35))
+<pre><code class="r">hist(Tstar, xlim = c(0, Tobs))
 abline(v = Tobs, col = &quot;red&quot;)
 </code></pre>
 
@@ -344,7 +344,7 @@ abline(v = Tobs, col = &quot;red&quot;)
   <p>Do we use the left-tail or right-tail of the null distribution to find the p-value?  Approximately what is the p-value?</p>
 
 <ol>
-<li>Left; 0.98</li>
+<li>Left; 0.98 </li>
 <li>Left; 0.02</li>
 <li>Right; 0.98</li>
 <li><em>Right; 0.02</em></li>
@@ -443,9 +443,9 @@ plot(lm1, which = c(1,3))
 
 <p>10)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is met</p>
 
-<p>11)  Draw a Normal Q-q plot which shows that the Normality assumption is violated.</p>
+<p>11)  Draw a Normal Q-Q plot which shows that the Normality assumption is violated.</p>
 
-<p>12)  Draw a Normal Q-q plot which shows that the Normality assumption is met.</p>
+<p>12)  Draw a Normal Q-Q plot which shows that the Normality assumption is met.</p>
 
 </section>
 
