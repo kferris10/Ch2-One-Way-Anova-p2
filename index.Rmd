@@ -16,24 +16,7 @@ assets      :
     - "http://fonts.googleapis.com/css?family=Droid%20Sans%20Mono"
 ---
 
-```{r setup, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
-library(knitr)
-opts_chunk$set(echo = T, 
-               message = F, 
-               warning = F, 
-               cache = F, 
-               tidy = F, 
-               comment = "#>", 
-               fig.align = "center", 
-               fig.width = 8, 
-               fig.height = 5, 
-               digits = 3, 
-               size = "small")
-options(show.signif.stars = F, 
-        digits = 2)
-set.seed(99)
-take_home <- 8
-```
+
 
 
 ## Introduction
@@ -56,20 +39,26 @@ The questions to turn in to me are not all at the end this time.  I tried to lab
 Recall the Insect Sprays data.  Plots of land were sprayed with one of six insecticides and the number of bugs were counted in each plot after spraying.  The data are displayed below.
 
 
-```{r insect-data}
+
+```r
 data(InsectSprays)  # load the data
 boxplot(count ~ spray, data = InsectSprays)
 ```
+
+<img src="assets/fig/insect-data-1.png" title="plot of chunk insect-data" alt="plot of chunk insect-data" style="display: block; margin: auto;" />
 
 ---
 ## Visualizing the ACT Data
 A school is interested in comparing ACT scores for students with baseball scholarships, football scholarships, and non-athletes.  We will test at an $\alpha = 0.05$ significance level.  The data are plotted below.
 
 
-```{r act-data}
+
+```r
 act <- read.csv("act.csv")
 boxplot(ACT ~ Sport, data = act)
 ```
+
+<img src="assets/fig/act-data-1.png" title="plot of chunk act-data" alt="plot of chunk act-data" style="display: block; margin: auto;" />
 
 
 ---
@@ -124,24 +113,52 @@ The hypotheses using $\mu$ are for cell means coding.  The hypotheses using $\ta
 
 To get our test statistic, we need to obtain the ANOVA table.  This can be done using the following R code.
 
-```{r insect-lm}
+
+```r
 lm1 <- lm(count ~ spray, data = InsectSprays)
 anova(lm1)
 ```
 
+```
+#> Analysis of Variance Table
+#> 
+#> Response: count
+#>           Df Sum Sq Mean Sq F value Pr(>F)
+#> spray      5   2669     534    34.7 <2e-16
+#> Residuals 66   1015      15
+```
+
 We want to use the F-statistic as our test statistic.  The following R code will extract it.
 
-```{r insect-test-stat}
+
+```r
 Tobs <- anova(lm1)[1,4]
 Tobs
+```
+
+```
+#> [1] 35
 ```
 
 --- &multitext
 ## Test Statistic for ACT Data
 
-```{r act-model}
+
+```r
 lm2 <- lm(ACT ~ Sport, data = act)
 anova(lm2)
+```
+
+```
+#> Analysis of Variance Table
+#> 
+#> Response: ACT
+#>           Df Sum Sq Mean Sq F value Pr(>F)
+#> Sport      2     71    35.5    4.56  0.023
+#> Residuals 20    156     7.8
+```
+
+```r
 Tobs2 <- anova(lm2)[1,4]
 ```
 
@@ -160,7 +177,8 @@ We will use a `for` loop to permute the data 1000 times.  Each time we'll `shuff
 
 If you want to learn more about this code, please ask.
 
-```{r insect-permutations}
+
+```r
 require(mosaic)
 Tstar <- matrix(NA, nrow = 1000)
 for(i in 1:1000) {
@@ -169,10 +187,21 @@ for(i in 1:1000) {
 }
 ```
 
-`Tstar` now contains the permuted test statistics.  The first one is `r Tstar[1,1]`, the second one is `r Tstar[2,1]`, and so on...
+`Tstar` now contains the permuted test statistics.  The first one is 0.84, the second one is 1.73, and so on...
 
-```{r insect-permuted-test-stats}
+
+```r
 head(Tstar)
+```
+
+```
+#>      [,1]
+#> [1,] 0.84
+#> [2,] 1.73
+#> [3,] 0.69
+#> [4,] 0.50
+#> [5,] 2.11
+#> [6,] 0.39
 ```
 
 --- &multitext
@@ -180,13 +209,24 @@ head(Tstar)
 
 Here is the code to perform the permutations for the ACT data.
 
-```{r act-permutations}
+
+```r
 Tstar2 <- matrix(NA, nrow = 1000)
 for(i in 1:1000) {
   lm_i <- lm(ACT ~ shuffle(Sport), data = act)
   Tstar2[i] <- anova(lm_i)[1,4]
 }
 head(Tstar2)
+```
+
+```
+#>       [,1]
+#> [1,] 0.013
+#> [2,] 0.100
+#> [3,] 2.159
+#> [4,] 0.916
+#> [5,] 0.353
+#> [6,] 0.033
 ```
 
 1. In the first permutation, what was the test statistic?  Round to two decimal places.
@@ -196,23 +236,31 @@ head(Tstar2)
 The permuted test statistics are stored in `Tstar`
 
 *** .explanation
-1. <span class='answer'>`r Tstar2[1,1]`</span>
-2. <span class='answer'>`r Tstar2[2,1]`</span>
+1. <span class='answer'>0.01</span>
+2. <span class='answer'>0.1</span>
 
 ---
 ## P-value for Insect Sprays
 
 We create a histogram of the distribution of permuted test statistics.  The red line represents our observed test statistic.
 
-```{r insect-null}
+
+```r
 hist(Tstar, xlim = c(0, Tobs))
 abline(v = Tobs, col = "red")
 ```
 
+<img src="assets/fig/insect-null-1.png" title="plot of chunk insect-null" alt="plot of chunk insect-null" style="display: block; margin: auto;" />
+
 The `pdata` command is then used to find the proportion of permuted test statistics greater than our observed test statistic.  It tells us that our p-value is approximately 0.
 
-```{r insect-pval}
+
+```r
 pdata(Tobs, Tstar, lower.tail = F)
+```
+
+```
+#> [1] 0
 ```
 
 ---
@@ -221,24 +269,7 @@ pdata(Tobs, Tstar, lower.tail = F)
 
 The same process can be used to calculated a p-value for the ACT data.  The histogram is displayed below.  The number corresponds to the percent of the null distribution in each bin.  The red line indicates the observed result.
 
-```{r act_pval, echo=FALSE, message=FALSE}
-nulldist2 <- do(1000) * anova(lm(ACT ~ shuffle(Sport), data = act))[1, 4]
-area_bins <- 100 * with(nulldist2, c(mean(result <= 0.75), 
-                                     mean(result >= 0.75 & result <= 1.5), 
-                                     mean(result >= 1.50 & result <= 2.25), 
-                                     mean(result >= 2.25 & result <= 3.0), 
-                                     mean(result >= 3.00 & result <= 3.75), 
-                                     mean(result >= 3.75 & result <= 4.5), 
-                                     mean(result >= 4.50 & result <= 5.25), 
-                                     mean(result >= 5.25 & result <= 6)))
-library(ggplot2)
-qplot(nulldist2$result) + 
-  geom_histogram(fill = "lightblue", binwidth = .75, colour = "black") + 
-  geom_vline(aes(xintercept=Tobs2), colour = "red", size = 2) + 
-  theme_bw() + labs(x = "F-statistic") + xlim(c(0, 6)) + 
-  geom_text(aes(x = c(1:8 * .75-.375), 
-                y = area_bins * 10 +15, label = area_bins))
-```
+<img src="assets/fig/act_pval-1.png" title="plot of chunk act_pval" alt="plot of chunk act_pval" style="display: block; margin: auto;" />
 
 --- &radio
 
@@ -264,10 +295,13 @@ We use the right tail when doing an ANOVA for both F-tests (parametric) and perm
 
 Let's first look at the equal variance assumption.  These plots suggest problems with the equal variance assumption.  Small fitted values do not have much spread, but large fitted values have a lot of spread in the residuals.  We see a fan shape in the Residuals vs Fitted values plot and an increasing trend in the Scale-Location plot.  So this assumption is not met.
 
-```{r mock_var, fig.height=5, fig.width=9, fig.align='center'}
+
+```r
 par(mfrow = c(1,2))
 plot(lm1, which = c(1,3))
 ```
+
+<img src="assets/fig/mock_var-1.png" title="plot of chunk mock_var" alt="plot of chunk mock_var" style="display: block; margin: auto;" />
 
 ---
 
@@ -275,10 +309,7 @@ plot(lm1, which = c(1,3))
 
 The Residuals vs Fitted value plot is on the left.  The Scale-Location plot is on the right.
 
-```{r act_var, fig.height=6, fig.width=10, fig.align = 'center', echo=FALSE}
-par(mfrow = c(1,2))
-plot(lm2, which = c(1,3))
-```
+<img src="assets/fig/act_var-1.png" title="plot of chunk act_var" alt="plot of chunk act_var" style="display: block; margin: auto;" />
 
 --- &radio
 
@@ -286,10 +317,10 @@ plot(lm2, which = c(1,3))
 
 Is the equal variance assumption met for the ACT data?
 
-1. Yes - there are noticeable patterns in the plots
-2. No - there are no noticeable patterns in the plots
-3. _Yes - there are no noticable patterns in the plots_
-4. No - there are noticeable patterns in the plots
+1. Yes - there is a fan shape or another type of noticeable pattern in the plots
+2. No - there are no fan shapes or other noticeable patterns in the plots
+3. _Yes - there are no fan shapes or other noticable patterns in the plots_
+4. No - there is a fan shape or another type of noticeable pattern in the plots
 
 *** .hint
 If there is a U-shape or fanning in the Residuals vs Fitted values plot **or** a constant upward/downward trend in the Scale-Location plot, the equal variance assumption is violated.
@@ -303,35 +334,25 @@ There are no obvious patterns in the plots, so the equal variance assumption is 
 
 Now let's look at normality.  Here, there are some problems.  We see the points flying off the line in the tails of the Normal Q-Q plot.  This is suggests that the data are not normally distributed so this assumption is not met.
 
-```{r mock_norm, fig.width=10, fig.height=5.5, fig.align = 'center', echo=FALSE}
-eij <- resid(lm1)
-par(mfrow = c(1,2))
-plot(lm1, which = 2)
-hist(eij, main = "Histogram of Residuals", col = "lightblue")
-```
+<img src="assets/fig/mock_norm-1.png" title="plot of chunk mock_norm" alt="plot of chunk mock_norm" style="display: block; margin: auto;" />
 
 ---
 ## Normality Plots for the ACT Data
 
 The Normal Q-Q plot is located on the left.  A histogram of the residuals is located on the right.  We have a small sample size for the ACT data (only 7 or 8 observations per group) so we need the plots to look really good.  There are some points lying well below the line on the Normal Q-Q plot, and the histogram is not quite symmetric so this assumption is violated.
 
-```{r act_norm, fig.width = 10, fig.height=5.5, echo=FALSE, fig.align = 'center', }
-par(mfrow=c(1,2))
-plot(lm2, which = 2)
-eij <- resid(lm2)
-hist(eij, main = "Histogram of Residuals", col = "lightblue")
-```
+<img src="assets/fig/act_norm-1.png" title="plot of chunk act_norm" alt="plot of chunk act_norm" style="display: block; margin: auto;" />
 
 ---
 ## Additional Take Home Questions
 
-`r take_home <- take_home + 1; take_home`)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is violated (this will be easiest if you give the residuals a fan shape).
+9)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is violated (this will be easiest if you give the residuals a fan shape).
 
-`r take_home <- take_home + 1; take_home`)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is met
+10)  Draw a Residuals vs Fitted values plot which shows that the Equal Variance assumption is met
 
-`r take_home <- take_home + 1; take_home`)  Draw a Normal Q-Q plot which shows that the Normality assumption is violated.
+11)  Draw a Normal Q-Q plot which shows that the Normality assumption is violated.
 
-`r take_home <- take_home + 1; take_home`)  Draw a Normal Q-Q plot which shows that the Normality assumption is met.
+12)  Draw a Normal Q-Q plot which shows that the Normality assumption is met.
 
 
 

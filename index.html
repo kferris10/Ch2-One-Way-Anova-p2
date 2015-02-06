@@ -242,18 +242,18 @@ for(i in 1:1000) {
 }
 </code></pre>
 
-<p><code>Tstar</code> now contains the permuted test statistics.  The first one is 0.36, the second one is 0.21, and so on...</p>
+<p><code>Tstar</code> now contains the permuted test statistics.  The first one is 0.84, the second one is 1.73, and so on...</p>
 
 <pre><code class="r">head(Tstar)
 </code></pre>
 
 <pre><code>#&gt;      [,1]
-#&gt; [1,] 0.36
-#&gt; [2,] 0.21
-#&gt; [3,] 0.75
-#&gt; [4,] 2.10
-#&gt; [5,] 1.82
-#&gt; [6,] 0.66
+#&gt; [1,] 0.84
+#&gt; [2,] 1.73
+#&gt; [3,] 0.69
+#&gt; [4,] 0.50
+#&gt; [5,] 2.11
+#&gt; [6,] 0.39
 </code></pre>
 
 </section>
@@ -273,13 +273,13 @@ for(i in 1:1000) {
 head(Tstar2)
 </code></pre>
 
-<pre><code>#&gt;      [,1]
-#&gt; [1,] 2.99
-#&gt; [2,] 0.50
-#&gt; [3,] 5.10
-#&gt; [4,] 0.14
-#&gt; [5,] 1.38
-#&gt; [6,] 1.14
+<pre><code>#&gt;       [,1]
+#&gt; [1,] 0.013
+#&gt; [2,] 0.100
+#&gt; [3,] 2.159
+#&gt; [4,] 0.916
+#&gt; [5,] 0.353
+#&gt; [6,] 0.033
 </code></pre>
 
 <ol>
@@ -298,8 +298,8 @@ head(Tstar2)
 </div>
 <div class="quiz-explanation">
   <ol>
-<li><span class='answer'>2.99</span></li>
-<li><span class='answer'>0.5</span></li>
+<li><span class='answer'>0.01</span></li>
+<li><span class='answer'>0.1</span></li>
 </ol>
 
 </div>
@@ -396,10 +396,10 @@ plot(lm1, which = c(1,3))
   <p>Is the equal variance assumption met for the ACT data?</p>
 
 <ol>
-<li>Yes - there are noticeable patterns in the plots</li>
-<li>No - there are no noticeable patterns in the plots</li>
-<li><em>Yes - there are no noticable patterns in the plots</em></li>
-<li>No - there are noticeable patterns in the plots</li>
+<li>Yes - there is a fan shape or another type of noticeable pattern in the plots</li>
+<li>No - there are no fan shapes or other noticeable patterns in the plots</li>
+<li><em>Yes - there are no fan shapes or other noticable patterns in the plots</em></li>
+<li>No - there is a fan shape or another type of noticeable pattern in the plots</li>
 </ol>
 
   <button class="quiz-submit btn btn-primary">Submit</button>
