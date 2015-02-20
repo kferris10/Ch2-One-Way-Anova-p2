@@ -1,0 +1,31 @@
+
+body { 
+	padding-top: 50px;
+	position: relative;
+}
+
+.affix-top {
+	width: inherit;
+}
+/* Side Navigation */
+ .page-sidebar .nav {
+ 	position: fixed;
+ }
+ .page-sidebar .nav > .active>ul {
+    display: block;
+}
+.page-sidebar > .nav > li > a {
+	display: block;
+	padding: 4px 20px;
+	font-size: 13px;
+	font-weight: 500;
+}
+.page-sidebar .nav > .active > a, 
+.page-sidebar .nav > .active:hover > a {
+	border-left: 2px solid #E81828;
+	background-color: #ededed;
+}
+.page-sidebar .nav > li > a:hover {
+	border-left: 1px solid #E81828;
+	background-color: transparent;
+}

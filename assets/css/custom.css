@@ -1,0 +1,72 @@
+
+body {
+  background-image: "assets/img/polyester_lite.png";
+  background-repeat: repeat;
+}
+
+footer {
+	border-top: 1px solid #ddd;
+	color: #999;
+	text-align: center;
+}
+section {
+  padding: 5px;
+  box-shadow: 1px 1px 5px 5px #ccc;
+  margin-top: 25px;
+}
+.jumbotron {
+  background-color: #FFE573;
+  text-align: center;
+}
+.page-header {
+  border-bottom: 0px;
+  color: #29467F;
+}
+
+/* responsive images */
+img {
+  max-width: 100%;
+}
+
+/* words */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Vollkorn', sans-serif;
+	font-weight: bold;
+  color: #29467F;
+  text-shadow: 1px 1px 1px #ccc;
+}
+p, 
+li {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+}
+a {
+  color: #4575D4;
+}
+.jumbotron h1, 
+.jumbotron h2, 
+.jumbotron h3 {
+  color: #05296E;
+}
+
+/* code styles 
+pre code {
+	font-family: 'Courier New' sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+pre code.r {
+	color: #A64800;
+	background-color: white;
+}
+*/
+
+/* hr styles */
+hr {
+  display: block; 
+  height: 1px;
+  border: 0; 
+  border-top: 1px solid #ccc;
+  margin: 5px; 
+  padding: 0;
+}

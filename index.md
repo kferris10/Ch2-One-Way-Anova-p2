@@ -1,17 +1,20 @@
 ---
 title       : Ch 2 - One Way ANOVA Part 2
-subtitle    : Stat 217
+subtitle    : Chapter 2
+author      : Stat 217
+today       : February 9, 2015
 framework   : bootstrap3     
-highlighter : highlight 
-hitheme     : tomorrow      
+highlighter : highlight.js
+hitheme     : google_code     
 widgets     : [quiz, mathjax]     
 mode        : selfcontained 
 knit        : slidify::knit2slides
 layout      : deck3
 assets      : 
   css       : 
-    - "libraries/frameworks/bootstrap3/css/custom.css"
-    - "libraries/frameworks/bootstrap3/css/moving_sidebar.css"
+    - "assets/css/custom.css"
+    - "assets/css/moving_sidebar.css"
+    - "assets/css/table-styles.css"
     - "http://fonts.googleapis.com/css?family=Vollkorn"
     - "http://fonts.googleapis.com/css?family=Droid%20Sans%20Mono"
 ---
@@ -187,7 +190,7 @@ for(i in 1:1000) {
 }
 ```
 
-`Tstar` now contains the permuted test statistics.  The first one is 0.36, the second one is 0.21, and so on...
+`Tstar` now contains the permuted test statistics.  The first one is 0.84, the second one is 1.73, and so on...
 
 
 ```r
@@ -196,12 +199,12 @@ head(Tstar)
 
 ```
 #>      [,1]
-#> [1,] 0.36
-#> [2,] 0.21
-#> [3,] 0.75
-#> [4,] 2.10
-#> [5,] 1.82
-#> [6,] 0.66
+#> [1,] 0.84
+#> [2,] 1.73
+#> [3,] 0.69
+#> [4,] 0.50
+#> [5,] 2.11
+#> [6,] 0.39
 ```
 
 --- &multitext
@@ -220,13 +223,13 @@ head(Tstar2)
 ```
 
 ```
-#>      [,1]
-#> [1,] 2.99
-#> [2,] 0.50
-#> [3,] 5.10
-#> [4,] 0.14
-#> [5,] 1.38
-#> [6,] 1.14
+#>       [,1]
+#> [1,] 0.013
+#> [2,] 0.100
+#> [3,] 2.159
+#> [4,] 0.916
+#> [5,] 0.353
+#> [6,] 0.033
 ```
 
 1. In the first permutation, what was the test statistic?  Round to two decimal places.
@@ -236,8 +239,8 @@ head(Tstar2)
 The permuted test statistics are stored in `Tstar`
 
 *** .explanation
-1. <span class='answer'>2.99</span>
-2. <span class='answer'>0.5</span>
+1. <span class='answer'>0.01</span>
+2. <span class='answer'>0.1</span>
 
 ---
 ## P-value for Insect Sprays
@@ -317,10 +320,10 @@ The Residuals vs Fitted value plot is on the left.  The Scale-Location plot is o
 
 Is the equal variance assumption met for the ACT data?
 
-1. Yes - there are noticeable patterns in the plots
-2. No - there are no noticeable patterns in the plots
-3. _Yes - there are no noticable patterns in the plots_
-4. No - there are noticeable patterns in the plots
+1. Yes - there is a fan shape or another type of noticeable pattern in the plots
+2. No - there are no fan shapes or other noticeable patterns in the plots
+3. _Yes - there are no fan shapes or other noticable patterns in the plots_
+4. No - there is a fan shape or another type of noticeable pattern in the plots
 
 *** .hint
 If there is a U-shape or fanning in the Residuals vs Fitted values plot **or** a constant upward/downward trend in the Scale-Location plot, the equal variance assumption is violated.

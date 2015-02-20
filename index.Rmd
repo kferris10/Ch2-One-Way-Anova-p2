@@ -1,17 +1,20 @@
 ---
 title       : Ch 2 - One Way ANOVA Part 2
-subtitle    : Stat 217
+subtitle    : Chapter 2
+author      : Stat 217
+today       : February 9, 2015
 framework   : bootstrap3     
-highlighter : highlight 
-hitheme     : tomorrow      
+highlighter : highlight.js
+hitheme     : google_code     
 widgets     : [quiz, mathjax]     
 mode        : selfcontained 
 knit        : slidify::knit2slides
 layout      : deck3
 assets      : 
   css       : 
-    - "libraries/frameworks/bootstrap3/css/custom.css"
-    - "libraries/frameworks/bootstrap3/css/moving_sidebar.css"
+    - "assets/css/custom.css"
+    - "assets/css/moving_sidebar.css"
+    - "assets/css/table-styles.css"
     - "http://fonts.googleapis.com/css?family=Vollkorn"
     - "http://fonts.googleapis.com/css?family=Droid%20Sans%20Mono"
 ---
